@@ -24,7 +24,7 @@ export default function AddUser() {
       e.preventDefault();
   try{
     
-    const res = await fetch(`${BASE_URL}`, {
+    const res = await fetch(`${BASE_URL}/`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,

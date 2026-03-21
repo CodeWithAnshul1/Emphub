@@ -56,7 +56,7 @@ export default function Loggin() {
           <h2 className="text-2xl font-bold text-center">Loggin please</h2>
   
           <input
-            type="text"
+            type="email"
             placeholder="Enter email"
             required
             className="w-full border p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
