@@ -7,11 +7,12 @@ export default function UpdateUser() {
   const [name,setName] = useState("");
   const [email,setEmail] = useState("");
   const token =localStorage.getItem("token");
+  const BASE_URL=import.meta.env.VITE_API_URL;
 
   const handleUpdate = async (e) => {
     e.preventDefault();
 
-    const res = await fetch(`http://localhost:5000/user/${id}`,{
+    const res = await fetch(`${BASE_URL}/user/${id}`,{
       method:"PUT",
       headers:{
         authorization : `Bearer ${token}`,

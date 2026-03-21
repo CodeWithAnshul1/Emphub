@@ -20,7 +20,7 @@ export default function Navbar() {
     
   }
   return(
-    <div className=' flex h-12.5 fixed  top-0 w-full  items-center justify-evenly  xl:justify-none xl:space-x-4 p-4 bg-gray-200 spacex-x-10 '>
+    <div className=' flex h-12.5 fixed  top-0 w-full  items-center justify-between  xl:justify-none xl:space-x-4 p-4 px-5 bg-gray-200 spacex-x-10 '>
       <Link  to="/Add">Add-User</Link>
       <Link to="/user"> Users</Link>
       <button onClick={logout} className="flex items-center gap-2">

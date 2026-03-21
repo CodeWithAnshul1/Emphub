@@ -8,13 +8,14 @@ export default function Createacc() {
     const [email, setEmail] = useState("");
     const [loading , setLoading] = useState(false);
     const navigate = useNavigate();
+    const BASE_URL=import.meta.env.VITE_API_URL;
     
 
     const handlecreate = async (e) => {
       e.preventDefault();
       try{
         setLoading(true);
-          const res = await fetch("http://localhost:5000/create", {
+          const res = await fetch(`${BASE_URL}/create`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -40,6 +41,7 @@ export default function Createacc() {
           }
         }
         catch(err){
+          toast.error("something went wrong");
 
         }
         finally{
@@ -54,10 +56,10 @@ export default function Createacc() {
           onSubmit={handlecreate}
           className="bg-white p-8 rounded-xl shadow-md w-80 space-y-4"
         >
-          <h2 className="text-2xl font-bold text-center">Loggin please</h2>
+          <h2 className="text-2xl font-bold text-center">Create Account</h2>
   
           <input
-            type="text"
+            type="email"
             placeholder="Enter email"
             required
             className="w-full border p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"

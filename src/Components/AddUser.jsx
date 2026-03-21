@@ -8,6 +8,7 @@ export default function AddUser() {
     const [email, setEmail] = useState("");
     const navigate =useNavigate();
     const token = localStorage.getItem("token");
+    const BASE_URL=import.meta.env.VITE_API_URL;
 
     const loggedout = () =>{
       localStorage.removeItem("token");
@@ -23,7 +24,7 @@ export default function AddUser() {
       e.preventDefault();
   try{
     
-    const res = await fetch("http://localhost:5000", {
+    const res = await fetch(`${BASE_URL}`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -32,7 +33,7 @@ export default function AddUser() {
       body: JSON.stringify({ name, email }),
     });
     
-    const data = await res.text();
+    const data = await res.json();
     // console.log(data);
     if(data){
       toast.success("User add successfully");
@@ -41,7 +42,7 @@ export default function AddUser() {
     }
   }
   catch{
-    toast.error("something wentrong")
+    toast.error("something went wrong");
   }
   };
   

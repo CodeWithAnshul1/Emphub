@@ -16,6 +16,7 @@ export default function Users() {
     const navigate =useNavigate();
     const [totalPage , settotalPage] = useState(1);
     const limit = 6 ;
+    const BASE_URL=import.meta.env.VITE_API_URL;
     
 
     useEffect(() => {
@@ -23,6 +24,7 @@ export default function Users() {
 
   if (search.trim() === "") {
     setmsg("");
+    setPage(1);
     showusers();
   } else {
     timer = setTimeout(() => {
@@ -37,7 +39,7 @@ export default function Users() {
      const searchusr = async()=>{
         try{
 
-            const res = await fetch(`http://localhost:5000/search?page=${page}&limit=${limit}`,{
+            const res = await fetch(`${BASE_URL}/search?page=${page}&limit=${limit}`,{
                 method :"POST",
                 headers :{
                     Authorization :`Bearer ${token}`,
@@ -63,15 +65,17 @@ export default function Users() {
         
     }
     catch(err){
+         console.log(err);
+        toast.error("Search failed");
 
     }
-        //   showusers();
+        
 
     }
 
     const showusers = async () => {
        try{ setLoading(true);
-           const res = await fetch(`http://localhost:5000/users?page=${page}&limit=${limit}` ,{
+           const res = await fetch(`${BASE_URL}/users?page=${page}&limit=${limit}` ,{
             headers :{
                 Authorization :`Bearer ${token}`,
             }
@@ -98,7 +102,7 @@ export default function Users() {
     const Delete = async(id) =>{
        
         try{
-            const res = await fetch(`http://localhost:5000/delete/${id}`,
+            const res = await fetch(`${BASE_URL}/delete/${id}`,
                 {
                     method : "DELETE",
                     headers : {
