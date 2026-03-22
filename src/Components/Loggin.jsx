@@ -9,7 +9,7 @@ export default function Loggin() {
     const [email, setEmail] = useState("");
     const navigate = useNavigate();
     const BASE_URL=import.meta.env.VITE_API_URL;
-    console.log(BASE_URL);
+
     
 
     const handleSubmit = async (e) => {

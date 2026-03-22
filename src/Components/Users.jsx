@@ -17,6 +17,7 @@ export default function Users() {
     const [totalPage , settotalPage] = useState(1);
     const limit = 6 ;
     const BASE_URL=import.meta.env.VITE_API_URL;
+    console.log(token);
     
 
     useEffect(() => {
