@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 export default function Createacc() {
-    const [pass, setPass] = useState("");
+    const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
     const [loading , setLoading] = useState(false);
     const navigate = useNavigate();
@@ -20,18 +20,14 @@ export default function Createacc() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ email, pass }),
+          body: JSON.stringify({ email, password }),
         });
         
-        //   const data = await res.json();
-        //   if(data.token){
-          //     // console.log(data.token);
-          //      localStorage.setItem("token",data.token);
-          //   }
+        
           
           if(res.ok){
             
-            setPass("");
+            setPassword("");
             setEmail("");
             toast.success("new User Create successfully");
             const timer =setTimeout(() => {
@@ -72,8 +68,8 @@ export default function Createacc() {
             placeholder="Enter Password"
             required
             className="w-full border p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
-            value={pass}
-            onChange={(e) => setPass(e.target.value)}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
   
          <button

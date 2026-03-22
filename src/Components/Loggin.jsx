@@ -5,10 +5,11 @@ import { toast } from "react-toastify";
 
 
 export default function Loggin() {
-     const [password, setPass] = useState("");
+     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
     const navigate = useNavigate();
     const BASE_URL=import.meta.env.VITE_API_URL;
+    console.log(BASE_URL);
     
 
     const handleSubmit = async (e) => {
@@ -31,7 +32,7 @@ export default function Loggin() {
             navigate("/Add");
             // return clearTimeout(timer);
           },1000);
-          setPass("");
+          setPassword("");
           setEmail("");
         }
         else{
@@ -70,7 +71,7 @@ export default function Loggin() {
             required
             className="w-full border p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
             value={password}
-            onChange={(e) => setPass(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
           />
   
           <button
