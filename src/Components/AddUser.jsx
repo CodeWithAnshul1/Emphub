@@ -9,6 +9,7 @@ export default function AddUser() {
     const navigate =useNavigate();
     const token = localStorage.getItem("token");
     const BASE_URL=import.meta.env.VITE_API_URL;
+    console.log(token);
 
     const loggedout = () =>{
       localStorage.removeItem("token");

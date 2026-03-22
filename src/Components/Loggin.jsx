@@ -26,20 +26,13 @@ export default function Loggin() {
         });
         
         const data = await res.json();
-        if(data.token){
-          localStorage.setItem("token",data.token);
-          toast.success("loggin succesfully");
-          const timer = setTimeout(()=>{
-            navigate("/Add");
-            // return clearTimeout(timer);
-          },1000);
-          setPassword("");
-          setEmail("");
-        }
-        else{
-          toast.error("somthing went Wrong");
-
-        }
+       if (data.token) {
+         localStorage.setItem("token", data.token);
+           toast.success("login successfully");
+              navigate("/Add");
+       } else {
+     toast.error(data.message || "Login failed");
+      }
       }
       catch(err){
         toast.error("somthing went Wrong");
