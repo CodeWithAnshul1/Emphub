@@ -25,7 +25,7 @@ export default function Users() {
 
   if (search.trim() === "") {
     setmsg("");
-    setPage(1);
+    // setPage(1);
     showusers();
   } else {
     timer = setTimeout(() => {

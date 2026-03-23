@@ -22,14 +22,12 @@ export default function Createacc() {
           },
           body: JSON.stringify({ email, password }),
         });
-        
-        
-          
-          if(res.ok){
+        const data =await res.json();
+        if(data){
             
             setPassword("");
             setEmail("");
-            toast.success("new User Create successfully");
+            toast.error(data.message);
             const timer =setTimeout(() => {
               navigate("/");
               return clearTimeout(timer) ;       
