@@ -1,6 +1,6 @@
 import React from 'react'
 import { Routes,Route} from 'react-router-dom'
-import AddUser from './AddUser'
+import AddClints from './AddClints'
 import Users from './Users'
 import UpdateUser from './UpdateUser'
 import PrivateRoutes from './PrivateRoutes'
@@ -15,9 +15,9 @@ export default function AppRoutes() {
 
         
         <Route path="/Add" element={ 
-          <PrivateRoutes> <AddUser/> </PrivateRoutes>}/>
+          <PrivateRoutes> <AddClints/> </PrivateRoutes>}/>
         
-        <Route path="/user" element={
+        <Route path="/clint" element={
           <PrivateRoutes><Users/></PrivateRoutes>}/>
 
         <Route path="/update/:id" element={

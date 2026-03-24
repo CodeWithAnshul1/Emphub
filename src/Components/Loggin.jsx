@@ -28,6 +28,7 @@ export default function Loggin() {
         const data = await res.json();
        if (data.token) {
          localStorage.setItem("token", data.token);
+         localStorage.setItem("role",data.role);
            toast.success("login successfully");
               navigate("/Add");
        } else {

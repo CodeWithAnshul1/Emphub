@@ -13,11 +13,13 @@ export default function Users() {
     const [msg , setmsg] =useState("");
     const [page , setPage] = useState(1);
     const token =localStorage.getItem("token");
+    const role = localStorage.getItem("role");
     const navigate =useNavigate();
     const [totalPage , settotalPage] = useState(1);
     const limit = 6 ;
     const BASE_URL=import.meta.env.VITE_API_URL;
-    console.log(token);
+    // console.log(role);
+   
     
 
     useEffect(() => {
@@ -25,7 +27,7 @@ export default function Users() {
 
   if (search.trim() === "") {
     setmsg("");
-    // setPage(1);
+ 
     showusers();
   } else {
     timer = setTimeout(() => {
@@ -114,8 +116,6 @@ export default function Users() {
                         
             )
 
-            // const data =  await res.json();
-            // console.log(data);
             if(res.ok){
               toast.success("User Delete successfully");
             }
@@ -123,7 +123,7 @@ export default function Users() {
         }
         catch(err) {
 
-            // console.log(err);
+       ;
             toast.error(err);
 
         }
@@ -171,22 +171,25 @@ export default function Users() {
         {users.map((user) =>(
             <div key={user._id} 
             className=' mx-auto w-[80%] p-5 space-y-3  bg-gray-100 rounded-md'>
-                {/* <p> id: {user._id}</p> */}
+               
                 <p> Name :{user.name}</p>
                 <p> Email :{user.email}</p>
-
+            {role ==="admin"|| role==="superadmin"&&(
+                <>
                 <button
-                    onClick={() => navigate(`/update/${user._id}`)}
-                    className="bg-blue-500 text-white px-3 py-1 rounded"
-                    >
+                onClick={() => navigate(`/update/${user._id}`)}
+                className="bg-blue-500 text-white px-3 py-1 rounded"
+                >
                     Edit
                 </button>
                 <button
-                    onClick={() =>Delete(user._id)}
-                    className=" ml-5 bg-red-500 text-white px-3 py-1 rounded"
-                    >
+                onClick={() =>Delete(user._id)}
+                className=" ml-5 bg-red-500 text-white px-3 py-1 rounded"
+                >
                     Delete
                 </button>
+                </>
+                    )}
 
              </div>
         ))}

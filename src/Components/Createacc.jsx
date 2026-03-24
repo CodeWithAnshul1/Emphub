@@ -23,15 +23,19 @@ export default function Createacc() {
           body: JSON.stringify({ email, password }),
         });
         const data =await res.json();
-        if(data){
+        if(res.ok){
             
             setPassword("");
             setEmail("");
-            toast.error(data.message);
+            toast.success(data.message);
+            localStorage.setItem("role",data.role);
             const timer =setTimeout(() => {
               navigate("/");
               return clearTimeout(timer) ;       
             },1000);
+          }
+          else{
+            toast.error(data.message);
           }
         }
         catch(err){
