@@ -30,7 +30,7 @@ export default function Navbar() {
       <Link  to="/Add">Add-clints</Link>
      )}
       <Link to="/clint"> Clints</Link>
-      <Link>Admin</Link>
+     
 
       <button onClick={logout} className="flex items-center gap-2">
   <FiLogOut size={20} />
