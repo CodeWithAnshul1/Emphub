@@ -4,6 +4,7 @@ import AddClints from './AddClints'
 import Users from './Users'
 import UpdateUser from './UpdateUser'
 import PrivateRoutes from './PrivateRoutes'
+import ProtectRoutes from './ProctectRoutes'
 import Loggin from "./Loggin"
 import Createacc from './Createacc'
 
@@ -15,7 +16,10 @@ export default function AppRoutes() {
 
         
         <Route path="/Add" element={ 
-          <PrivateRoutes> <AddClints/> </PrivateRoutes>}/>
+          
+            <ProtectRoutes><AddClints/>
+            </ProtectRoutes> 
+          }/>
         
         <Route path="/clint" element={
           <PrivateRoutes><Users/></PrivateRoutes>}/>

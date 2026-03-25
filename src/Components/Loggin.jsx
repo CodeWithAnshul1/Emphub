@@ -30,7 +30,7 @@ export default function Loggin() {
          localStorage.setItem("token", data.token);
          localStorage.setItem("role",data.role);
            toast.success("login successfully");
-              navigate("/Add");
+              navigate("/clint");
        } else {
      toast.error(data.message || "Login failed");
       }

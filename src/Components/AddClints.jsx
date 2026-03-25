@@ -5,18 +5,19 @@ import { toast } from 'react-toastify';
 
 export default function AddUser() {
      const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
+    const [number, setNumber] = useState("");
+    const [ add , setAdd] = useState("");
     const navigate =useNavigate();
     const token = localStorage.getItem("token");
     const BASE_URL=import.meta.env.VITE_API_URL;
     // console.log(token);
 
-    const loggedout = () =>{
-      localStorage.removeItem("token");
-      toast.success("Logged out successfully");
+    // const loggedout = () =>{
+    //   localStorage.removeItem("token");
+    //   toast.success("Logged out successfully");
 
-      navigate("/")
-    }
+    //   navigate("/")
+    // }
 
    
 
@@ -31,15 +32,16 @@ export default function AddUser() {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ name, email }),
+      body: JSON.stringify({ name, number ,add }),
     });
     
     const data = await res.json();
     // console.log(data);
     if(data){
       toast.success("User add successfully");
-      setEmail("");
       setName("");
+      setNumber("");
+      setAdd("");
     }
   }
   catch{
@@ -54,11 +56,11 @@ export default function AddUser() {
           onSubmit={handleSubmit}
           className="bg-white p-8 rounded-xl shadow-md w-80 space-y-4"
         >
-          <h2 className="text-2xl font-bold text-center">Send Data</h2>
+          <h2 className="text-2xl font-bold text-center">Add New Clint</h2>
   
           <input
             type="text"
-            placeholder="Enter Name"
+            placeholder="Name"
             required
             className="w-full border p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
             value={name}
@@ -66,25 +68,34 @@ export default function AddUser() {
           />
   
           <input
-            type="email"
-            placeholder="Enter Email"
+            type="text"
+            placeholder="phone Number"
+            maxLength={10}
             required
             className="w-full border p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={number}
+            onChange={(e) => setNumber(e.target.value.replace(/\D/g,""))}
           />
+          <input
+            type="text"
+            placeholder="Address"
+            required
+            className="w-full border p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+            value={add}
+            onChange={(e) => setAdd(e.target.value)}
+          />
+  
   
           <button
             type="submit"
             className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition"
           >
-            Send
+            Add
           </button>
   
         </form>
 
-        {/* <button onClick={loggedout} 
-        className='bg-red-500 p-3 rounded-lg mx-20'> Logged out</button> */}
+       
       </div>
       </div>
     );

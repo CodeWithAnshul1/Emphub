@@ -173,7 +173,8 @@ export default function Users() {
             className=' mx-auto w-[80%] p-5 space-y-3  bg-gray-100 rounded-md'>
                
                 <p> Name :{user.name}</p>
-                <p> Email :{user.email}</p>
+                <p> Phone :{user.number}</p>
+                <p> Address :{user.add}</p>
             {role ==="admin"|| role==="superadmin"&&(
                 <>
                 <button
@@ -195,11 +196,11 @@ export default function Users() {
         ))}
         </div>
 
-        <div className='fixed bottom-0 left-0 w-full bg-white  p-3 flex justify-between'>
+        <div className='fixed bottom-0 left-0 w-full bg-gray/100 z-50  p-3 flex justify-between'>
             <button
             onClick={()=>setPage(page-1)}
             disabled ={page === 1}
-            className=' flex  items-center bg-gray-200 p-2 rounded-lg gap-2'
+            className=' flex  items-center z-50 bg-gray-200 p-2 rounded-lg gap-2'
             >
             <FaArrowLeft />
             Prev
@@ -208,7 +209,7 @@ export default function Users() {
             <button
              onClick={()=>setPage(page+1)}
             disabled ={page >= totalPage}
-            className=' flex  items-center bg-gray-200 p-2 rounded-lg gap-2'
+            className=' flex  items-center z-50  bg-gray-200 p-2 rounded-lg gap-2'
             >
             Next
             <FaArrowRight />
