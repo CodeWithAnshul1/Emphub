@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { FiLogOut } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+ const BASE_URL=import.meta.env.VITE_API_URL;
 
 export default function Menubar() {
   const [open, setOpen] = useState(false);
@@ -25,6 +26,11 @@ export default function Menubar() {
     document.body.style.overflow = open ? "hidden" : "auto";
     return () => (document.body.style.overflow = "auto");
   }, [open]);
+
+  const gotouser = ()=>{
+    setOpen(false);
+    navigate("/user");
+  }
 
   return (
     <>
@@ -86,9 +92,11 @@ export default function Menubar() {
         </div>
 
         {/* Content */}
-        <div className="bg-slate-100 p-4">
+        <div className="bg-slate-100 p-4 h-full">
            
-          <p>Menu Item 2</p>
+          <button
+          onClick={gotouser}
+          >Admin</button>
           <p>Menu Item 3</p>
         </div>
       </div>

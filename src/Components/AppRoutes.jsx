@@ -1,6 +1,7 @@
 import React from 'react'
 import { Routes,Route} from 'react-router-dom'
 import AddClints from './AddClints'
+import Clints from './Clints'
 import Users from './Users'
 import UpdateUser from './UpdateUser'
 import PrivateRoutes from './PrivateRoutes'
@@ -22,7 +23,9 @@ export default function AppRoutes() {
           }/>
         
         <Route path="/clint" element={
-          <PrivateRoutes><Users/></PrivateRoutes>}/>
+          <PrivateRoutes><Clints/></PrivateRoutes>}/>
+          <Route path="/user" element={
+         <ProtectRoutes><Users/></ProtectRoutes> }/>
 
         <Route path="/update/:id" element={
           <PrivateRoutes><UpdateUser /></PrivateRoutes>}/>
