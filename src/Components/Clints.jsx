@@ -44,8 +44,9 @@ export default function Users() {
 
             const res = await fetch(`${BASE_URL}/search?page=${page}&limit=${limit}`,{
                 method :"POST",
+                credentials :"include",
                 headers :{
-                    Authorization :`Bearer ${token}`,
+                    // Authorization :`Bearer ${token}`,
                     "Content-Type" : "application/json",
                 },
                 body: JSON.stringify({search}),
