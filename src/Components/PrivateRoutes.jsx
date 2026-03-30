@@ -1,14 +1,33 @@
-import React from 'react'
-import {Navigate} from "react-router-dom"
+import React, { useEffect, useState } from 'react';
+import { Navigate } from "react-router-dom";
 
-export default function PrivateRoutes( {children}) {
-  const token =localStorage.getItem("token");
+export default function PrivateRoutes({ children }) {
+  const [loading, setLoading] = useState(true);
+  const [isAuth, setIsAuth] = useState(false);
 
-  if(!token){
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const res = await fetch("http://localhost:5000/me", {
+          credentials: "include",
+        });
 
-      return <Navigate to="/" />;
-  } 
+        if (!res.ok) throw new Error();
 
-  return children ;
+        setIsAuth(true);
+      } catch {
+        setIsAuth(false);
+      } finally {
+        setLoading(false);
+      }
+    };
 
+    checkAuth();
+  }, []);
+
+  if (loading) return <div>Loading...</div>;
+
+  if (!isAuth) return <Navigate to="/" />;
+
+  return children;
 }

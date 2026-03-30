@@ -8,17 +8,9 @@ export default function AddUser() {
     const [number, setNumber] = useState("");
     const [ add , setAdd] = useState("");
     const navigate =useNavigate();
-    const token = localStorage.getItem("token");
+  
     const BASE_URL=import.meta.env.VITE_API_URL;
-    // console.log(token);
-
-    // const loggedout = () =>{
-    //   localStorage.removeItem("token");
-    //   toast.success("Logged out successfully");
-
-    //   navigate("/")
-    // }
-
+   
    
 
   
@@ -28,8 +20,9 @@ export default function AddUser() {
     
     const res = await fetch(`${BASE_URL}/`, {
       method: "POST",
+      credentials : "include",
       headers: {
-        Authorization: `Bearer ${token}`,
+        // Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ name, number ,add }),
@@ -37,12 +30,14 @@ export default function AddUser() {
     
     const data = await res.json();
     // console.log(data);
-    if(data){
-      toast.success("User add successfully");
-      setName("");
+    if(!res.ok){
+      toast.error("fail to add user");
+      return
+    }
+    toast.success(data.message);
+    setName("");
       setNumber("");
       setAdd("");
-    }
   }
   catch{
     toast.error("something went wrong");

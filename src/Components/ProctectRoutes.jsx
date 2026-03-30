@@ -1,17 +1,16 @@
-import React from 'react'
-import { Navigate } from 'react-router-dom'
+import { useAuth } from "../context/AuthContext";
+import { Navigate } from "react-router-dom";
 
 export default function ProtectRoutes({ children }) {
-  const token = localStorage.getItem("token");
-  const role = localStorage.getItem("role");
+  const { user, loading } = useAuth(); // ✅ inside function
 
-  if (!token) {
-    return <Navigate to="/login" />;
+  if (loading) {
+    return <div>Loading...</div>;
   }
 
-  if (role === "admin" || role === "superadmin") {
-    return children;
+  if (!user) {
+    return <Navigate to="/" />;
   }
 
-  return <Navigate to="/clint" />;
+  return children;
 }

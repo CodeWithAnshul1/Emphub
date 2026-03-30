@@ -2,6 +2,9 @@ import React from 'react'
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from "react-toastify";
+import { useAuth } from "../context/Authcontext";
+
+;
 
 
 export default function Loggin() {
@@ -9,6 +12,7 @@ export default function Loggin() {
     const [email, setEmail] = useState("");
     const navigate = useNavigate();
     const BASE_URL=import.meta.env.VITE_API_URL;
+    const { getUser } = useAuth();
 
     
 
@@ -18,6 +22,8 @@ export default function Loggin() {
 
         const res = await fetch(`${BASE_URL}/login`, {
           method: "POST",
+          credentials: "include",
+        
           headers: {
             "Content-Type": "application/json",
           },
@@ -26,14 +32,16 @@ export default function Loggin() {
         });
         
         const data = await res.json();
-       if (data.token) {
-         localStorage.setItem("token", data.token);
-         localStorage.setItem("role",data.role);
-           toast.success("login successfully");
-              navigate("/clint");
-       } else {
-     toast.error(data.message || "Login failed");
-      }
+       if (!res.ok) {
+        console.log(data);
+         toast.error(data.message || "Login failed");
+       
+      } 
+      await getUser();
+      navigate("/clint");
+        toast.success("login successfully");
+        localStorage.setItem("role", data.role);
+      
       }
       catch(err){
         toast.error("somthing went Wrong");

@@ -79,9 +79,8 @@ export default function Users() {
     const showusers = async () => {
        try{ setLoading(true);
            const res = await fetch(`${BASE_URL}/clints?page=${page}&limit=${limit}` ,{
-            headers :{
-                Authorization :`Bearer ${token}`,
-            }
+            credentials : "include",
+           
            });
            const data =  await res.json();
            setUsers(data.users);
@@ -108,10 +107,11 @@ export default function Users() {
             const res = await fetch(`${BASE_URL}/delete/${id}`,
                 {
                     method : "DELETE",
-                    headers : {
-                        Authorization : `Bearer ${token}`,
+                    credentials: "include",
+                    // headers : {
+                    //     Authorization : `Bearer ${token}`,
 
-                    }
+                    // }
                 }
                         
             )

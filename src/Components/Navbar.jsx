@@ -1,33 +1,56 @@
-import React from 'react'
-import { useState } from 'react';
-import {Link , useNavigate} from "react-router-dom";
-// import { FiLogOut } from "react-icons/fi";
-import { toast } from 'react-toastify';
+import React, { useState, useEffect } from 'react';
+import { Link } from "react-router-dom";
 import Menubar from './Menubar';
-
-console.log()
-
+import { useAuth } from "../context/Authcontext";
 
 
 export default function Navbar() {
-  const navigate = useNavigate();
-  const token =localStorage.getItem("token");
-  const role = localStorage.getItem("role");
+  const { user } = useAuth();
 
-  
-  return(
-    <div className=' flex h-12.5 fixed  top-0 w-full  items-center justify-between  xl:justify-none xl:space-x-4 p-4 px-5 bg-gray-200 spacex-x-10 '>
-     { (role === "admin" || role === "superadmin")&& (
+  // const [currentUser, setCurrentUser] = useState(null);
+  const BASE_URL = import.meta.env.VITE_API_URL;
+  // const role = localStorage.getItem("role");
 
-      <Link  to="/Add">Add-clints</Link>
-     )}
-      <Link to="/clint"> Clints</Link>
-     
+//   useEffect(() => {
+//   const getUser = async () => {
+//     try {
+//       const res = await fetch(`${BASE_URL}/me`, {
+//         credentials: "include",
+//       });
 
-     
-     <Menubar/>
+//       if (!res.ok) {
+//         return; // 🔥 stop error
+       
+//     }
+
+//       const data = await res.json();
+//       setCurrentUser(data.user);
+
+//     } catch (err) {
+//       setCurrentUser(null);
+//     }
+//   };
+
+//   getUser();
+// }, []);// ✅ only once
+
+  return (
+    <div className='flex h-12.5 fixed top-0 w-full items-center justify-between xl:space-x-4 p-4 px-5 bg-gray-200'>
+
+      {/* ✅ safe check */}
+      {
+        (user?.role === "admin" ||user?.role === "superadmin") && (
+          <Link to="/Add">Add-clients</Link>
+        )
+
+      }
+
       
-    </div>
 
+      <Link to="/clint">Clients</Link>
+
+      <Menubar />
+
+    </div>
   );
 }
