@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { FiLogOut } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../context/Authcontext";
 
 export default function Menubar() {
   const [open, setOpen] = useState(false);
