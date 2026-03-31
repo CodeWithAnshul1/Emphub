@@ -4,29 +4,25 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAuth } from "../context/AuthContext";
 
-const BASE_URL = import.meta.env.VITE_API_URL;
-
 export default function Menubar() {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
 
-  const { user, setUser } = useAuth(); // ✅ ONLY USE CONTEXT
+  const { user, setUser } = useAuth();
 
-  // ✅ logout
-  const logout = async () => {
+  // ✅ logout (localStorage based)
+  const logout = () => {
     try {
-      const res = await fetch(`${BASE_URL}/logout`, {
-        method: "POST",
-        credentials: "include",
-      });
+      // 🔥 remove token + role
+      localStorage.removeItem("token");
+      localStorage.removeItem("role");
 
-      if (!res.ok) throw new Error();
+      // clear context
+      setUser(null);
 
       toast.success("Logged out successfully");
 
-      setUser(null); // 🔥 instant UI update
       setOpen(false);
-
       navigate("/");
 
     } catch (err) {
@@ -50,7 +46,7 @@ export default function Menubar() {
       {/* Hamburger Button */}
       <button
         onClick={() => {
-          if (!user) return; // only if logged in
+          if (!user) return;
           setOpen(!open);
         }}
         className="relative w-5 h-5 flex flex-col justify-between z-50"

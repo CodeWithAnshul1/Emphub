@@ -28,7 +28,7 @@ export default function Createacc() {
             setPassword("");
             setEmail("");
             toast.success(data.message);
-            localStorage.setItem("role",data.role);
+            // localStorage.setItem("role",data.role);
             const timer =setTimeout(() => {
               navigate("/");
               return clearTimeout(timer) ;       

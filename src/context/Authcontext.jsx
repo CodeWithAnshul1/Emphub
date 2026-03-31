@@ -8,31 +8,46 @@ export const AuthProvider = ({ children }) => {
 
   const BASE_URL = import.meta.env.VITE_API_URL;
 
-  const getUser = async () => {
+  const fetchUser = async () => {
+    const token = localStorage.getItem("token"); // ✅ get token
+
+    // ❌ no token → not logged in
+    if (!token) {
+      setUser(null);
+      setLoading(false);
+      return;
+    }
+
     try {
       const res = await fetch(`${BASE_URL}/me`, {
-        credentials: "include",
+        headers: {
+          Authorization: `Bearer ${token}`, // ✅ send token
+        },
       });
 
       if (!res.ok) {
-        setUser(null);
-      } else {
-        const data = await res.json();
-        setUser(data.user);
+        throw new Error();
       }
+
+      const data = await res.json();
+      setUser(data.user);
+
     } catch (err) {
+      // ❌ invalid/expired token
+      localStorage.removeItem("token");
       setUser(null);
     } finally {
       setLoading(false);
     }
   };
 
+  // ✅ run once on app load / refresh
   useEffect(() => {
-    getUser();
+    fetchUser();
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, setUser, loading, getUser }}>
+    <AuthContext.Provider value={{ user, setUser, loading, fetchUser }}>
       {children}
     </AuthContext.Provider>
   );

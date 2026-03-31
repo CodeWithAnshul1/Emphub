@@ -6,16 +6,17 @@ export default function UpdateUser() {
   const {id} = useParams() ;
   const [name,setName] = useState("");
   const [email,setEmail] = useState("");
-  const token =localStorage.getItem("token");
+ 
   const BASE_URL=import.meta.env.VITE_API_URL;
 
   const handleUpdate = async (e) => {
     e.preventDefault();
 
-    const res = await fetch(`${BASE_URL}/user/${id}`,{
+    const res = await fetch(`${BASE_URL}/clint/${id}`,{
       method:"PUT",
+      credentials: "include" ,
       headers:{
-        authorization : `Bearer ${token}`,
+       
         "Content-Type":"application/json"
       },
       body: JSON.stringify({

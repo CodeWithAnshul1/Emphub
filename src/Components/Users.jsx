@@ -10,11 +10,21 @@ export default function Users() {
   const [msg, setMsg] = useState("");
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
+  // const token = localStorage.getItem("token");
 
-  const { user } = useAuth(); // ✅ use global user
+  const { user, fetchUser } = useAuth();
 
   const limit = 6;
   const BASE_URL = import.meta.env.VITE_API_URL;
+
+  // 🔐 AUTH HEADER
+  const getAuthHeader = () => {
+    const token = localStorage.getItem("token");
+    return {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`,
+    };
+  };
 
   // ================= FETCH USERS =================
   const showuser = async () => {
@@ -24,12 +34,12 @@ export default function Users() {
       const res = await fetch(
         `${BASE_URL}/users?page=${page}&limit=${limit}`,
         {
-          credentials: "include",
+          headers: getAuthHeader(),
         }
       );
 
       const data = await res.json();
-
+      
       if (!res.ok) {
         throw new Error(data.msg || "Failed to fetch users");
       }
@@ -37,7 +47,6 @@ export default function Users() {
       setUsers(data.users || []);
       setTotalPage(data.totalPages || 1);
       setMsg("");
-
     } catch (err) {
       toast.error(err.message);
       setUsers([]);
@@ -55,10 +64,7 @@ export default function Users() {
         `${BASE_URL}/usrsearch?page=${page}&limit=${limit}`,
         {
           method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: getAuthHeader(),
           body: JSON.stringify({ search }),
         }
       );
@@ -74,7 +80,6 @@ export default function Users() {
       setUsers(data.users || []);
       setTotalPage(data.totalPages || 1);
       setMsg("");
-
     } catch (err) {
       toast.error("Search failed");
       setUsers([]);
@@ -88,11 +93,11 @@ export default function Users() {
     try {
       const res = await fetch(`${BASE_URL}/change-role/${id}`, {
         method: "PUT",
-        credentials: "include",
+        headers: getAuthHeader(),
       });
 
       const data = await res.json();
-
+      
       if (!res.ok) {
         toast.error(data.message);
         return;
@@ -100,11 +105,16 @@ export default function Users() {
 
       toast.success(data.message);
 
+      // update UI instantly
       setUsers((prev) =>
         prev.map((u) =>
           u._id === id ? { ...u, role: data.role } : u
         )
       );
+
+      // 🔥 refresh current logged-in user role
+      await fetchUser();
+
     } catch (err) {
       toast.error("Failed to update role");
     }
@@ -173,10 +183,14 @@ export default function Users() {
                   <button
                     onClick={() => changeRole(u._id)}
                     className={`text-white px-2 py-1 rounded ${
-                      u.role === "user" ? "bg-green-400" : "bg-red-500"
+                      u.role === "user"
+                        ? "bg-green-400"
+                        : "bg-red-500"
                     }`}
                   >
-                    {u.role === "user" ? "Promote" : "Make user"}
+                    {u.role === "user"
+                      ? "Promote"
+                      : "Make user"}
                   </button>
                 )}
               </div>
@@ -186,7 +200,9 @@ export default function Users() {
           {/* PAGINATION */}
           <div className="fixed bottom-0 left-0 w-full bg-gray-100 p-3 flex justify-between">
             <button
-              onClick={() => setPage((p) => Math.max(1, p - 1))}
+              onClick={() =>
+                setPage((p) => Math.max(1, p - 1))
+              }
               disabled={page === 1}
               className="flex items-center bg-gray-200 p-2 rounded-lg gap-2"
             >
