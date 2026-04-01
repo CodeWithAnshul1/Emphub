@@ -6,6 +6,7 @@ export default function AddUser() {
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
   const [add, setAdd] = useState("");
+  const [month, setmonth] = useState("");
   const navigate = useNavigate();
 
   const BASE_URL = import.meta.env.VITE_API_URL;
@@ -30,7 +31,7 @@ export default function AddUser() {
           // ✅ send token in header
           "Authorization": `Bearer ${token}`,
         },
-        body: JSON.stringify({ name, number, add }),
+        body: JSON.stringify({ name, number, add , month}),
       });
 
       const data = await res.json();
@@ -45,6 +46,7 @@ export default function AddUser() {
       setName("");
       setNumber("");
       setAdd("");
+      setmonth("");
 
     } catch (err) {
       toast.error("Something went wrong");
@@ -86,6 +88,14 @@ export default function AddUser() {
             className="w-full border p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
             value={add}
             onChange={(e) => setAdd(e.target.value)}
+          />
+           <input
+            type="number"
+            placeholder="months"
+            required
+            className="w-full border p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+            value={month}
+            onChange={(e) => setmonth(e.target.value)}
           />
 
           <button

@@ -11,7 +11,9 @@ export default function Users() {
   const [msg, setmsg] = useState("");
   const [page, setPage] = useState(1);
   const [totalPage, settotalPage] = useState(1);
-  const {user}= useAuth();
+  const [fee ,setfee] =useState(null);
+  const[month ,setmonth] =useState("");
+    const {user}= useAuth();
 
   const token = localStorage.getItem("token");
   // const role = localStorage.getItem("role");
@@ -67,6 +69,17 @@ export default function Users() {
       toast.error("Search failed");
     }
   };
+  const formatDate = (date) => {
+  return new Date(date).toLocaleDateString();
+};
+const isExpired = (date) => {
+  if (!date) return false;
+
+  const exp = new Date(date);
+  if (isNaN(exp)) return false;
+
+  return exp < new Date();
+};
 
   const showusers = async () => {
     try {
@@ -96,6 +109,7 @@ export default function Users() {
         headers: {
           "Authorization": `Bearer ${token}`, // ✅ added
         },
+     
       });
 
       if (res.ok) {
@@ -109,6 +123,39 @@ export default function Users() {
       toast.error("Something went wrong");
     }
   };
+
+
+  const extendfee = async(id) =>{
+    try{
+
+      const res = await fetch(`${BASE_URL}/extendfee/${id}`,{
+        method :"PUT",
+        headers:{
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
+           body:JSON.stringify({
+          month,
+        })
+      });
+
+      const data = await  res.json();
+      if(res.ok){
+        setfee(null);
+        toast.success(data.message);
+        showusers();
+        setmonth("");
+      }
+      else{
+        toast.error("try again !");
+      }
+      
+    }catch(err){
+      toast.error(err);
+
+    }
+
+  }
 
   return (
     <>
@@ -145,20 +192,30 @@ export default function Users() {
           <div className='grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-5 mb-20'>
             {users.map((user) => (
               <div key={user._id}
-                className='mx-auto w-[80%] p-5 space-y-3 bg-gray-100 rounded-md'>
+                className='mx-auto w-[80%] p-5 space-y-3 bg-gray-100 rounded-md font-semibold'>
 
                 <p>Name: {user.name}</p>
                 <p>Phone: {user.number}</p>
                 <p>Address: {user.add}</p>
+                <p>EntryDte: {formatDate(user.entrydate)}</p>
+                <p className={`${
+                    isExpired(user.expiredate)
+                    ? "text-red-600 font-bold"
+                   : "text-green-600"
+                      }`}
+>
+                       {isExpired(user.expiredate) ? "Expired on: " : "Valid till: "}
+                        {formatDate(user.expiredate)}
+                </p>
 
                 {/* ✅ FIXED ROLE CONDITION */}
                 {isAdmin && (
                   <>
                     <button
-                      onClick={() => navigate(`/update/${user._id}`)}
+                      onClick={()=>setfee(user._id)}
                       className="bg-blue-500 text-white px-3 py-1 rounded"
                     >
-                      Edit
+                      Add fee
                     </button>
 
                     <button
@@ -167,6 +224,22 @@ export default function Users() {
                     >
                       Delete
                     </button>
+
+                    {fee ===user._id &&(
+                      <div className='flex flex-col justify-between'>
+                        <input
+                        type="number"
+                        placeholder='enter months'
+                        min={1}
+                        value={month}
+                        onChange={(e)=>setmonth(e.target.value)}
+                        className="w-full border p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        />
+                        <button
+                        onClick={()=>extendfee(user._id)}
+                        className='p-2 '>Save</button>
+                      </div>
+                    )}
                   </>
                 )}
               </div>
