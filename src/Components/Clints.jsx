@@ -111,7 +111,7 @@ const isExpired = (date) => {
         },
      
       });
-
+      const data =await res.json();
       if (res.ok) {
         toast.success("User deleted successfully");
         showusers();
@@ -159,60 +159,70 @@ const isExpired = (date) => {
 
   return (
     <>
-      <div className="flex mt-10 justify-center items-center h-[20vh]">
-        <div className="w-[80%] flex">
-          <input
-            type="text"
-            placeholder="Enter user name"
-            value={search}
-            onChange={(e) => {
-              Setsearch(e.target.value);
-              setPage(1);
-            }}
-            className="flex-1 p-2 border border-gray-400 rounded-l"
-          />
+   return (
+  <div className="bg-[#020617] min-h-screen text-white flex flex-col">
 
-          <button
-            onClick={searchusr}
-            className="bg-blue-500 text-white px-2 py-2 rounded-r text-xl"
-          >
-            🔍
-          </button>
-        </div>
+    {/* SEARCH */}
+    <div className="flex justify-center items-center h-[20vh]">
+      <div className="w-[80%] flex">
+        <input
+          type="text"
+          placeholder="Enter user name"
+          value={search}
+          onChange={(e) => {
+            Setsearch(e.target.value);
+            setPage(1);
+          }}
+          className="flex-1 p-2 border border-gray-400 rounded-l bg-transparent text-white"
+        />
+
+        <button
+          onClick={searchusr}
+          className="bg-blue-500 text-white px-2 py-2 rounded-r text-xl"
+        >
+          🔍
+        </button>
       </div>
+    </div>
 
+    {/* CONTENT */}
+    <div className="flex-1">
       {loading ? (
-        <div className='flex justify-center items-center h-[60vh]'>
-          <div className='w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin'></div>
+        <div className="flex justify-center items-center h-[60vh]">
+          <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
         </div>
       ) : (
-        <div>
-          <div className='text-center text-xl'>{msg}</div>
+        <>
+          <div className="text-center text-xl">{msg}</div>
 
-          <div className='grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-5 mb-20'>
+          <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-5 pb-24">
             {users.map((user) => (
-              <div key={user._id}
-                className='mx-auto w-[80%] p-5 space-y-3 bg-gray-100 rounded-md font-semibold'>
-
+              <div
+                key={user._id}
+                className="mx-auto w-[80%] p-5 space-y-3 bg-[#111827] rounded-xl font-semibold border border-[#1F2937]"
+              >
                 <p>Name: {user.name}</p>
                 <p>Phone: {user.number}</p>
                 <p>Address: {user.add}</p>
-                <p>EntryDte: {formatDate(user.entrydate)}</p>
-                <p className={`${
+                <p>EntryDate: {formatDate(user.entrydate)}</p>
+
+                <p
+                  className={`${
                     isExpired(user.expiredate)
-                    ? "text-red-600 font-bold"
-                   : "text-green-600"
-                      }`}
->
-                       {isExpired(user.expiredate) ? "Expired on: " : "Valid till: "}
-                        {formatDate(user.expiredate)}
+                      ? "text-red-500 font-bold"
+                      : "text-green-500"
+                  }`}
+                >
+                  {isExpired(user.expiredate)
+                    ? "Expired on: "
+                    : "Valid till: "}
+                  {formatDate(user.expiredate)}
                 </p>
 
-                {/* ✅ FIXED ROLE CONDITION */}
                 {isAdmin && (
                   <>
                     <button
-                      onClick={()=>setfee(user._id)}
+                      onClick={() => setfee(user._id)}
                       className="bg-blue-500 text-white px-3 py-1 rounded"
                     >
                       Add fee
@@ -220,24 +230,28 @@ const isExpired = (date) => {
 
                     <button
                       onClick={() => Delete(user._id)}
-                      className="ml-5 bg-red-500 text-white px-3 py-1 rounded"
+                      className="ml-3 bg-red-500 text-white px-3 py-1 rounded"
                     >
                       Delete
                     </button>
 
-                    {fee ===user._id &&(
-                      <div className='flex flex-col justify-between'>
+                    {fee === user._id && (
+                      <div className="mt-2 space-y-2">
                         <input
-                        type="number"
-                        placeholder='enter months'
-                        min={1}
-                        value={month}
-                        onChange={(e)=>setmonth(e.target.value)}
-                        className="w-full border p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+                          type="number"
+                          placeholder="enter months"
+                          min={1}
+                          value={month}
+                          onChange={(e) => setmonth(e.target.value)}
+                          className="w-full border p-2 rounded-md bg-transparent text-white"
                         />
+
                         <button
-                        onClick={()=>extendfee(user._id)}
-                        className='p-2 '>Save</button>
+                          onClick={() => extendfee(user._id)}
+                          className="bg-green-500 px-3 py-1 rounded"
+                        >
+                          Save
+                        </button>
                       </div>
                     )}
                   </>
@@ -245,26 +259,31 @@ const isExpired = (date) => {
               </div>
             ))}
           </div>
-
-          <div className='fixed bottom-0 left-0 w-full bg-gray-100 p-3 flex justify-between'>
-            <button
-              onClick={() => setPage(page - 1)}
-              disabled={page === 1}
-              className='flex items-center bg-gray-200 p-2 rounded-lg gap-2'
-            >
-              <FaArrowLeft /> Prev
-            </button>
-
-            <button
-              onClick={() => setPage(page + 1)}
-              disabled={page >= totalPage}
-              className='flex items-center bg-gray-200 p-2 rounded-lg gap-2'
-            >
-              Next <FaArrowRight />
-            </button>
-          </div>
-        </div>
+        </>
       )}
+    </div>
+
+    {/* PAGINATION */}
+    <div className="fixed bottom-0 left-0 w-full bg-[#020617] p-3 flex justify-between border-t border-[#1F2937]">
+      <button
+        onClick={() => setPage(page - 1)}
+        disabled={page === 1}
+        className="flex items-center bg-[#111827] p-2 rounded-lg gap-2 border border-[#1F2937]"
+      >
+        <FaArrowLeft /> Prev
+      </button>
+
+      <button
+        onClick={() => setPage(page + 1)}
+        disabled={page >= totalPage}
+        className="flex items-center bg-[#111827] p-2 rounded-lg gap-2 border border-[#1F2937]"
+      >
+        Next <FaArrowRight />
+      </button>
+    </div>
+
+  </div>
+);
     </>
   );
 }

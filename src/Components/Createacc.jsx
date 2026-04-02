@@ -2,11 +2,13 @@ import React from 'react'
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 export default function Createacc() {
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
     const [loading , setLoading] = useState(false);
+    const [showpass , setshowpass] = useState(false);
     const navigate = useNavigate();
     const BASE_URL=import.meta.env.VITE_API_URL;
     
@@ -48,11 +50,11 @@ export default function Createacc() {
     };
   
     return (
-      <div className="flex justify-center items-center h-screen bg-gray-100">
+      <div className="flex justify-center items-center h-screen bg-[#020617]">
   
         <form
           onSubmit={handlecreate}
-          className="bg-white p-8 rounded-xl shadow-md w-80 space-y-4"
+          className="bg-[#111827] p-8 rounded-xl shadow-md w-80 space-y-4 text-white"
         >
           <h2 className="text-2xl font-bold text-center">Create Account</h2>
   
@@ -64,20 +66,27 @@ export default function Createacc() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-  
+            <div className='relative'>
+
           <input
-            type="password"
+            type={showpass ?"text" :"password"}
             placeholder="Enter Password"
             required
             className="w-full border p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-          />
+            />
+            <span
+            onClick={()=>setshowpass(!showpass)}
+            className='absolute right-3 top-2.5 '>
+                {showpass ? <FaEyeSlash /> : <FaEye /> }
+            </span>
+            </div>
   
          <button
              type="submit"
              disabled={loading}
-             className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition disabled:opacity-50"
+             className="w-full bg-[#22C55E] text-white py-2 rounded-md hover:font-bold transition disabled:opacity-50"
               >
             {loading ? "Creating..." : "Create Account"}
         </button>

@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAuth } from "../context/Authcontext";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 export default function Loggin() {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+  const [showpass , setshowpass] = useState(false);
   const navigate = useNavigate();
   const BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -30,14 +32,10 @@ export default function Loggin() {
         return;
       }
 
-      // ✅ store token
       localStorage.setItem("token", data.token);
-
-      // ✅ fetch fresh user (role from DB)
       await fetchUser();
 
       toast.success("Login successful");
-
       navigate("/clint");
 
     } catch (err) {
@@ -46,10 +44,22 @@ export default function Loggin() {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-100">
+    <div
+      className="
+        min-h-screen flex justify-center items-center
+        bg-[url('/bg.png')]       /* mobile image */
+        md:bg-none                /* remove image on desktop */
+        bg-contain bg-no-repeat
+        bg-[#020617]             /* desktop color */
+        relative
+      "
+    >
+      {/* 🔥 overlay only on mobile */}
+      <div className="absolute inset-0 bg-black/60 md:hidden"></div>
+
       <form
         onSubmit={handleSubmit}
-        className="bg-white p-8 rounded-xl shadow-md w-80 space-y-4"
+        className="relative bg-[#111827]/80 backdrop-blur-md p-8 rounded-xl shadow-md w-80 space-y-4 text-white"
       >
         <h2 className="text-2xl font-bold text-center">Login please</h2>
 
@@ -57,23 +67,32 @@ export default function Loggin() {
           type="email"
           placeholder="Enter email"
           required
-          className="w-full border p-2 rounded-md"
+          className="w-full border p-2 rounded-md bg-transparent"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-
+        <div className="relative">
         <input
-          type="password"
+          type={showpass ?"text":"password"}
           placeholder="Enter Password"
           required
-          className="w-full border p-2 rounded-md"
+          className="w-full border p-2 rounded-md bg-transparent"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
+        <span
+        onClick={()=>setshowpass(!showpass)}
+        
+        className="absolute right-3 top-2.5 cursor-pointer text-gray-300"
+        >
+        {showpass ? <FaEyeSlash /> : <FaEye />}
+          
+        </span>
+        </div>
 
         <button
           type="submit"
-          className="w-full bg-blue-500 text-white py-2 rounded-md"
+          className="w-full bg-[#22C55E] py-2 rounded-md"
         >
           Sign in
         </button>
@@ -81,7 +100,7 @@ export default function Loggin() {
         <button
           type="button"
           onClick={() => navigate("/createacc")}
-          className="text-blue-500"
+          className="text-blue-400 ml-[25%]"
         >
           Create new account
         </button>

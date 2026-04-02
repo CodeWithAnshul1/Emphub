@@ -136,91 +136,89 @@ export default function Users() {
   }, [search, page]);
 
   // ================= UI =================
-  return (
-    <div>
-      {/* SEARCH */}
-      <div className="flex mt-10 justify-center items-center h-[20vh]">
-        <div className="w-[80%] flex">
-          <input
-            type="text"
-            placeholder="Enter user name"
-            value={search}
-            onChange={(e) => {
-              setSearch(e.target.value);
-              setPage(1);
-            }}
-            className="flex-1 p-2 border border-gray-400 rounded-l"
-          />
+  
+    return (
+  <div className="bg-[#020617] min-h-screen flex flex-col text-white">
 
-          <button className="bg-blue-500 text-white px-2 py-2 rounded-r text-xl">
-            🔍
-          </button>
-        </div>
+    {/* SEARCH */}
+    <div className="flex mt-10 justify-center items-center h-[20vh]">
+      <div className="w-[80%] flex">
+        <input
+          type="text"
+          placeholder="Enter user name"
+          value={search}
+          onChange={(e) => {
+            setSearch(e.target.value);
+            setPage(1);
+          }}
+          className="flex-1 p-2 border border-gray-400 rounded-l bg-transparent text-white"
+        />
+
+        <button className="bg-blue-500 px-2 py-2 rounded-r text-xl">
+          🔍
+        </button>
       </div>
+    </div>
 
-      {/* LOADING */}
+    {/* CONTENT */}
+    <div className="flex-1">
       {loading ? (
         <div className="flex justify-center items-center h-[60vh]">
           <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
         </div>
       ) : (
-        <div>
-          {/* MESSAGE */}
+        <>
           {msg && <div className="text-center text-xl">{msg}</div>}
 
           {/* USER LIST */}
-          <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-5 mb-20">
+          <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-5 pb-24">
             {(users || []).map((u) => (
               <div
                 key={u._id}
-                className="mx-auto w-[80%] p-5 space-y-3 bg-gray-100 rounded-md"
+                className="mx-auto w-[80%] p-5 space-y-3 bg-[#111827] rounded-md border border-[#1F2937]"
               >
                 <p>Email: {u.email}</p>
                 <p>Role: {u.role}</p>
 
-                {/* ONLY SUPERADMIN */}
                 {user?.role === "superadmin" && (
                   <button
                     onClick={() => changeRole(u._id)}
-                    className={`text-white px-2 py-1 rounded ${
+                    className={`px-2 py-1 rounded ${
                       u.role === "user"
                         ? "bg-green-400"
                         : "bg-red-500"
                     }`}
                   >
-                    {u.role === "user"
-                      ? "Promote"
-                      : "Make user"}
+                    {u.role === "user" ? "Promote" : "Make user"}
                   </button>
                 )}
               </div>
             ))}
           </div>
-
-          {/* PAGINATION */}
-          <div className="fixed bottom-0 left-0 w-full bg-gray-100 p-3 flex justify-between">
-            <button
-              onClick={() =>
-                setPage((p) => Math.max(1, p - 1))
-              }
-              disabled={page === 1}
-              className="flex items-center bg-gray-200 p-2 rounded-lg gap-2"
-            >
-              <FaArrowLeft />
-              Prev
-            </button>
-
-            <button
-              onClick={() => setPage((p) => p + 1)}
-              disabled={page >= totalPage}
-              className="flex items-center bg-gray-200 p-2 rounded-lg gap-2"
-            >
-              Next
-              <FaArrowRight />
-            </button>
-          </div>
-        </div>
+        </>
       )}
     </div>
-  );
+
+    {/* PAGINATION */}
+    <div className="fixed bottom-0 left-0 w-full bg-[#020617] p-3 flex justify-between border-t border-[#1F2937]">
+      <button
+        onClick={() => setPage((p) => Math.max(1, p - 1))}
+        disabled={page === 1}
+        className="flex items-center bg-[#111827] p-2 rounded-lg gap-2 border border-[#1F2937]"
+      >
+        <FaArrowLeft /> Prev
+      </button>
+
+      <button
+        onClick={() => setPage((p) => p + 1)}
+        disabled={page >= totalPage}
+        className="flex items-center bg-[#111827] p-2 rounded-lg gap-2 border border-[#1F2937]"
+      >
+        Next <FaArrowRight />
+      </button>
+    </div>
+
+  </div>
+);
+  
 }

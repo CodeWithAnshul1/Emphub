@@ -54,11 +54,11 @@ export default function AddUser() {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-100">
-      <div className='flex flex-col space-y-10'>
+    <div className="flex justify-center items-center h-screen bg-[#020617]">
+      <div className='flex flex-col space-y-10 '>
         <form
           onSubmit={handleSubmit}
-          className="bg-white p-8 rounded-xl shadow-md w-80 space-y-4"
+          className="bg-[#111827] p-8 rounded-xl shadow-md w-80 space-y-4 text-white"
         >
           <h2 className="text-2xl font-bold text-center">Add New Client</h2>
 

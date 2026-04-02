@@ -15,7 +15,7 @@ export default function Menubar() {
     try {
       // 🔥 remove token + role
       localStorage.removeItem("token");
-      localStorage.removeItem("role");
+      // localStorage.removeItem("role");
 
       // clear context
       setUser(null);
@@ -49,20 +49,20 @@ export default function Menubar() {
           if (!user) return;
           setOpen(!open);
         }}
-        className="relative w-5 h-5 flex flex-col justify-between z-50"
+        className="relative w-5 h-5 flex flex-col justify-between z-50 "
       >
         <span
-          className={`block h-1 bg-black rounded transition-all duration-300 ${
+          className={`block h-1 bg-[#F9FAFB] rounded transition-all duration-300 ${
             open ? "rotate-45 translate-y-1.5" : ""
           }`}
         />
         <span
-          className={`block h-1 bg-black rounded transition-all duration-300 ${
+          className={`block h-1 bg-[#F9FAFB] rounded transition-all duration-300 ${
             open ? "opacity-0" : ""
           }`}
         />
         <span
-          className={`block h-1 bg-black rounded transition-all duration-300 ${
+          className={`block h-1 bg-[#F9FAFB] rounded transition-all duration-300 ${
             open ? "-rotate-45 -translate-y-1.5" : ""
           }`}
         />
@@ -78,7 +78,7 @@ export default function Menubar() {
 
       {/* Sidebar */}
       <div
-        className={`fixed top-0 right-0 z-[998] h-screen bg-white shadow
+        className={`fixed top-0 right-0 z-[998] h-screen bg-[#020617] shadow
         transform transition-transform duration-300 overflow-y-auto
         
         w-[60%] sm:w-[60%] md:w-[40%] lg:w-[30%]
@@ -86,7 +86,7 @@ export default function Menubar() {
         ${open ? "translate-x-0" : "translate-x-full"}`}
       >
         {/* Header */}
-        <div className="bg-[#232F3E] text-white h-[110px] p-4 flex justify-between items-center">
+        <div className="bg-[#020617] text-white h-[110px] p-4 flex justify-between items-center border-b border-[#1F2937]">
           <button onClick={logout} className="flex items-center gap-2">
             <FiLogOut size={20} />
             Logout
@@ -98,13 +98,13 @@ export default function Menubar() {
         </div>
 
         {/* Content */}
-        <div className="bg-slate-100 p-4 h-full space-y-3">
+        <div className="bg-[#020617] p-4 h-full space-y-3">
           
           {/* ✅ Role-based UI */}
           {(user?.role === "admin" || user?.role === "superadmin") && (
             <button
               onClick={goToUser}
-              className="block w-full text-left bg-gray-200 p-2 rounded"
+              className="block w-full text-left bg-[#111827] p-2 rounded"
             >
               Manage Users
             </button>
